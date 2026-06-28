@@ -277,3 +277,42 @@ I am verifying that the backend compiles cleanly with the new `model` and `api_u
 
 ---
 
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 12:34:15`
+
+요청해주신 모든 문제를 완전히 분석하고 성공적으로 조치하였습니다!
+
+---
+
+### 🛠️ 주요 수정 및 해결 사항
+
+1. **한국어 문자열 깨짐(Mojibake) 문제 해결 (UTF-8 BOM 적용)**
+   * Windows 환경의 로컬 편집기 및 Git 클라이언트가 UTF-8로 저장된 한국어 텍스트를 시스템 기본 인코딩(CP949)으로 오인해 발생하는 깨짐 현상을 해결했습니다.
+   * 깨짐이 보고된 주요 파일인 [App.tsx](file:///c:/workspace/token_optimizer/src/App.tsx), [SearchInput.tsx](file:///c:/workspace/token_optimizer/src/components/SearchInput.tsx), [StatusBar.tsx](file:///c:/workspace/token_optimizer/src/components/StatusBar.tsx), [FileDropZone.tsx](file:///c:/workspace/token_optimizer/src/components/FileDropZone.tsx), [history.md](file:///c:/workspace/token_optimizer/history.md) 파일 전체에 **UTF-8 BOM(Byte Order Mark)**을 주입하여 Windows 및 모든 에디터에서 한국어가 깨짐 없이 올바르게 표시되도록 보장했습니다.
+
+2. **사라진 기획/설계 마크다운 문서들 완전 복원**
+   * Tauri 템플릿 재생성 과정에서 소실되었던 `docs/` 폴더 내의 기획 및 설계서 5종을 어시스턴트 대화 히스토리로부터 원본 그대로 복원하였습니다:
+     * 📄 [Prompt_Clip_App_Plan.md](file:///c:/workspace/token_optimizer/docs/Prompt_Clip_App_Plan.md) (앱 기획서)
+     * 📄 [Prompt_Clip_Code_Plan.md](file:///c:/workspace/token_optimizer/docs/Prompt_Clip_Code_Plan.md) (시스템 아키텍처 설계서)
+     * 📄 [Prompt_Clip_Code_Implementation_Plan.md](file:///c:/workspace/token_optimizer/docs/Prompt_Clip_Code_Implementation_Plan.md) (상세 구현 계획서)
+     * 📄 [Prompt_Clip_Development_Plan.md](file:///c:/workspace/token_optimizer/docs/Prompt_Clip_Development_Plan.md) (개발 계획서)
+     * 📄 [research.md](file:///c:/workspace/token_optimizer/docs/research.md) (기술 조사 및 전략 보고서)
+   * 이 문서들 역시 한글 깨짐 방지를 위해 모두 **UTF-8 BOM** 형태로 인코딩하여 저장했습니다.
+
+3. **Git 상태 반영 및 `history.md` 추적 완료**
+   * 기존에 Untracked 상태였던 [history.md](file:///c:/workspace/token_optimizer/history.md)를 포함하여 새롭게 복원된 `docs/` 내의 기획서 파일들 전체를 `git add`하여 스테이징 상태로 완벽히 전환했습니다. (`git status` 시에 정상적으로 `new file`로 추적되고 있습니다)
+
+4. **앱 이름 명명 규칙 일치화**
+   * [package.json](file:///c:/workspace/token_optimizer/package.json)의 앱 이름이 템플릿의 잔재인 `temp_app`으로 지정되어 있던 문제를 해결하여 Tauri 환경 설정과 일치하도록 `"name": "token_optimizer"`로 명명 규칙을 일체화했습니다.
+
+5. **LLM 모듈의 하드코딩 제거 (모델 및 엔드포인트 동적 전송 지원)**
+   * [src-tauri/src/llm/mod.rs](file:///c:/workspace/token_optimizer/src-tauri/src/llm/mod.rs) 내에 `gpt-4o-mini`와 OpenAI 엔드포인트 URL이 하드코딩되어 있던 부분을 분리하였습니다.
+   * [cmd.rs](file:///c:/workspace/token_optimizer/src-tauri/src/cmd.rs) 및 프론트엔드의 [tauriIpc.ts](file:///c:/workspace/token_optimizer/src/services/tauriIpc.ts)에서 선택적으로 custom `model`과 `apiUrl`을 전달받을 수 있도록 수정하여, 향후 프론트엔드 설정 창에서 자유롭게 로컬 LLM(Ollama) 혹은 다양한 타사 API 엔드포인트로 커스터마이징할 수 있는 구조적 준비를 마쳤습니다. (값을 주지 않을 시 기존의 `gpt-4o-mini` 및 기본 OpenAI 주소로 안전하게 Fallback 작동합니다)
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 12:34:55`
+
+깃 푸쉬 버전 관리해줘
+
+---
+
