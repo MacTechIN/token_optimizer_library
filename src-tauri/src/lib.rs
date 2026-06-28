@@ -51,13 +51,18 @@ pub fn run() {
                 }
             });
 
-            // 2. Hide window when focus is lost (blur)
+            // 3. Hide window when focus is lost (blur)
             if let Some(window) = app.get_webview_window("main") {
                 let w_clone = window.clone();
+                let has_focused = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
                 window.on_window_event(move |event| {
                     if let tauri::WindowEvent::Focused(focused) = event {
-                        if !*focused {
-                            let _ = w_clone.hide();
+                        if *focused {
+                            has_focused.store(true, std::sync::atomic::Ordering::Relaxed);
+                        } else {
+                            if has_focused.load(std::sync::atomic::Ordering::Relaxed) {
+                                let _ = w_clone.hide();
+                            }
                         }
                     }
                 });

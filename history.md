@@ -736,3 +736,115 @@ git push
 
 ---
 
+### 👤 사용자 (User) - `2026. 6. 29. 오전 8:05:09`
+
+현재 윈도우 시스템에서 실제 작동시켜 테스트 하는 방법을 알려줘
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:05:31`
+
+현재 윈도우 시스템에서 **실제 프로그램을 실행하고 각 시나리오별로 테스트 및 검증하는 방법**을 단계별로 안내해 드립니다.
+
+---
+
+### 1. 테스트 실행 파일 준비 (택 1)
+
+현재 컴파일 및 패키징이 성공적으로 완료되어 로컬 디렉토리에 실행 파일들이 준비되어 있습니다. 편하신 방법으로 구동해 주세요.
+
+*   **방법 A: 무설치 단일 파일 실행 (가장 빠름)**
+    *   📄 **[token_optimizer.exe (경량 실행 파일)](file:///C:/workspace/token_optimizer/src-tauri/target/release/token_optimizer.exe)** 파일을 더블 클릭하여 실행합니다.
+*   **방법 B: 설치형 패키지 테스트 (실제 배포 형태)**
+    *   📄 **[TokenOptimizer_0.1.0_x64-setup.exe (NSIS 설치 프로그램)](file:///C:/workspace/token_optimizer/src-tauri/target/release/bundle/nsis/TokenOptimizer_0.1.0_x64-setup.exe)** 파일을 실행하여 PC에 설치(바탕화면 및 시작 메뉴에 등록)한 후 앱을 구동합니다.
+
+---
+
+### 2. 기본 UI 조작 및 설정 등록
+
+1.  **초기 API Key 설정:**
+    *   앱이 처음 켜지면 화면 중앙에 API 입력창이 팝업됩니다.
+    *   본인의 **OpenAI API Key (`sk-...`)**를 입력하고 `Enter` 키 또는 우측 `저장` 버튼을 누릅니다. (설정된 키는 브라우저 영역에 안전하게 자동 저장되어 이후 다시 묻지 않습니다)
+2.  **윈도우 숨김 및 표시:**
+    *   **글로벌 단축키:** 언제 어디서나 **`Alt + Space`**를 입력하면 화면 중앙에 앱이 나타나거나 사라집니다.
+    *   **자동 숨김 (Focus lost):** 위젯 바깥 영역(에디터, 웹 브라우저 등)을 클릭하여 포커스를 잃으면 앱이 자동으로 트레이 영역으로 사라집니다.
+    *   **수동 닫기:** 위젯이 켜진 상태에서 **`Escape`** 키를 누르면 앱이 즉시 숨김 처리됩니다.
+3.  **프리셋 템플릿 전환:**
+    *   위젯이 활성화된 상태에서 **`Tab`** 키를 누르면 하단 가이드바의 프리셋 템플릿이 순환 변경됩니다.
+    *   `Token Savings (일반 압축)` $\rightarrow$ `Code Review (코드 분석)` $\rightarrow$ `Executive Summary (요약 정리)` 순서로 전환됩니다.
+
+---
+
+### 3. 기능 시나리오별 테스트 가이드
+
+#### 시나리오 1. 일반 텍스트 토큰 압축 테스트
+*   **방법:** 웹 브라우저나 문서에서 영문으로 번역/압축하고 싶은 장문의 한글 텍스트를 복사한 뒤, 위젯 입력창에 붙여넣고 `Enter`를 칩니다.
+*   **검증:** 위젯 하단 상태바에 `압축 최적화 수행 중...`이 표시되고 완료 후 `클립보드 자동 복사! X자 -> Y자 (Z% 절약)` 문구가 나타나며 1.8초 뒤 창이 닫힙니다. 메모장 등에 `Ctrl + V`를 누르면 최적화된 영문 프롬프트가 정상적으로 붙여넣어지는지 확인합니다.
+
+#### 시나리오 2. 로컬 문서(PDF, Word) 드롭 테스트
+*   **방법:** 텍스트를 수동으로 긁기 어려운 다량의 **PDF 파일** 또는 **MS Word (.docx) 파일**을 윈도우 탐색기에서 위젯 영역으로 끌어다 드롭(Drag & Drop)합니다.
+*   **검증:** 반투명 테두리 반응과 함께 파일이 수신되고, 내부 텍스트를 Rust 라이브러리로 자체 추출하여 공백 정리 후 gpt-4o-mini API를 거쳐 요약본이 클립보드에 적재되는지 검증합니다.
+
+#### 시나리오 3. 로컬 네이티브 OCR 테스트 (이미지 추출)
+*   **방법:** 한글/영어가 포함된 화면의 특정 부분을 캡처(단축키: `Win + Shift + S`)하여 이미지 파일(`.png`, `.jpg`, `.bmp`)로 저장하거나 준비해 둔 후, 해당 이미지 파일을 위젯 영역에 드롭합니다.
+*   **검증:** 인터넷 연결이 없는 상태에서도 로컬 Windows 내장 `WinRT OCR`이 0.1초 내로 이미지를 판독하고, 판독된 텍스트가 영문으로 번역/압축되어 클립보드에 복사되는지 확인합니다.
+
+#### 시나리오 4. 백그라운드 램 상주 및 생명주기 제어 (System Tray)
+*   **방법:** 작업 표시줄 우측 하단의 **시스템 트레이(숨겨진 아이콘 표시 ^)** 영역을 확인합니다.
+*   **검증:** Token Optimizer 아이콘이 트레이 영역에 표시되는지 확인하고, 해당 아이콘을 마우스 우클릭하여 **`Exit`** 메뉴를 누르면 프로세스가 완벽히 종료(Alt+Space 작동 중지)되는지 테스트합니다.
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 8:11:46`
+
+앱이 시작 되지 않아 . 직접 테스트하고 원인을 찾아줘
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:12:41`
+
+I am verifying the compile in the background to ensure the focus-hide race condition fix integrates successfully. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:14:46`
+
+I have run the unit tests in the background to verify that everything still compiles and executes cleanly with the new focus initialization logic. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:15:38`
+
+I have launched the Tauri production rebuild in the background to package the updated executable containing the focus transition startup fix. I've set a 90-second timer to monitor its progress and will notify you when it has finished.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:17:41`
+
+The build process is compiling the final binary with the changes. I've set another 60-second timer to monitor it. I will keep you posted.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:19:01`
+
+I have forcefully terminated the running processes of `token_optimizer.exe` that were locking the release folder, and I've restarted the Tauri production build in the background. I've set a 60-second timer to verify when the compilation completes.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:20:09`
+
+The build is currently compiling. I've set another 60-second timer to check on the rebuild status. I'll let you know once it finishes.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:21:16`
+
+The compilation is nearing completion. I've set a 30-second timer to check on the build status. I'll let you know once it finishes.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:21:52`
+
+The compiler has compiled the release binary and successfully built the MSI installer. It is now wrapping the NSIS setup installer. I've set a 30-second timer to monitor its final completion.
+
+---
+
