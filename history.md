@@ -560,3 +560,105 @@ I am running `cargo test` in the background to verify that all unit tests still 
 
 ---
 
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 1:29:17`
+
+T.O. (Token Optimizer) 데스크톱 앱의 다음 단계 기능인 **네이티브 시스템 트레이(System Tray) 및 종료 메뉴** 구현과 이에 따른 검증을 성공적으로 마쳤습니다!
+
+---
+
+### 🛠️ 이번 단계 진행 및 개선 내역
+
+1. **시스템 트레이 구현 (`src-tauri/src/lib.rs`):**
+   * Tauri v2 규격의 `TrayIconBuilder`와 `MenuBuilder`를 활용하여 Windows 알림 영역(트레이 아이콘 영역)에 앱이 안전하게 상주하도록 아이콘 및 메뉴 구조를 추가했습니다.
+   * 트레이 아이콘을 우클릭할 때 나타나는 **"Exit"** 메뉴 아이템을 바인딩하여, 클릭 시 백그라운드로 실행 중인 토큰 최적화 앱이 메모리 상에서 안전하고 완벽하게 프로세스 종료(`app.exit(0)`)되도록 라이프사이클 관리를 구현했습니다.
+   * 앱 실행 파일 아이콘이 설정되어 있는 경우 트레이 아이콘에 앱 아이콘이 동적으로 로드되도록 헬퍼 로직을 구성했습니다.
+
+2. **Tauri 의존성 업데이트 (`src-tauri/Cargo.toml`):**
+   * Tauri v2 크레이트의 의존성 빌드 시 시스템 트레이 제어를 위해 `"tray-icon"` 피처를 `features` 배열 내에 활성화하였습니다.
+
+3. **테스트 및 검증 완료:**
+   * 트레이 컴포넌트 추가 후에도 기존 유닛 테스트 5종이 모두 정상적으로 패스(`ok`)하여 코드 안정성에 문제가 없음을 확인했습니다.
+   * 모든 수정본과 대화 이력 `history.md` 파일은 로컬 Git 커밋이 완료되었습니다.
+
+---
+
+### 🚀 다음 권장 단계 (Tauri 패키징)
+이제 앱의 로컬 개발, 램 상주/단축키 바인딩, OCR, 파일 파싱, Heuristics, 시스템 트레이 라이프사이클 통제까지 모든 핵심 구현과 테스트 시뮬레이션이 성공적으로 완료되었습니다.
+
+실제 배포 가능한 Windows 설치 프로그램(`.msi` 혹은 `.exe`)을 추출하여 배포 패키지 테스트를 하려면 아래 명령어를 개발 터미널에 입력하여 빌드하시면 됩니다:
+
+```bash
+# 배포용 설치 파일 빌드
+npm run tauri build
+```
+
+마지막 트레이 추가 변경 내역까지 원격 저장소에 반영하고 싶으시면, 터미널에 `git push`를 실행하여 깃허브에 완벽히 동기화하실 수 있습니다!
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 1:30:10`
+
+푸쉬 하였음 다음 단계 진행 해줘 -> 모든 단계는 물어 보지 말고 계속 Yes 로 진행 해줘
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 1:30:22`
+
+I have started the Tauri production build in the background (`npm run tauri build`). I've set a 60-second timer to monitor the build progress and will let you know once it finishes or if it requires attention.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 1:31:29`
+
+The production build is actively compiling all dependencies in release mode. I've scheduled another 90-second timer to check on the progress.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 1:33:13`
+
+The compilation is progressing steadily, currently building the core `tauri` and `webview2` modules. I've set another 90-second timer to check on its progress.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 1:35:10`
+
+The build process is compiling the `tray-icon` and `png` features. I've set a 90-second timer to check on the progress again.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 1:36:47`
+
+The build process is compiling the core libraries (like `lopdf`, `docx-rs`, and `reqwest`) and our application code. I've set a 90-second timer to check on the compilation progress.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 3:19:05`
+
+I have sent the input `y` to the background build task using the task management tool. I've set a 20-second timer to verify if it has resumed the compilation.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 7:51:04`
+
+I have restarted the Tauri production build in the background, this time using a `cmd.exe /c` wrapper that automatically pipes `y` into the build process if it prompts to download the WiX Toolset dependencies. I've set a 60-second timer to monitor its execution.
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 7:51:34`
+
+계속 진행 해줘
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 7:51:54`
+
+The Tauri production build has only been running for about 44 seconds (the local time is KST, which is 9 hours ahead of the UTC timestamps in the logs). It is compiling normally in the background. I've scheduled another 60-second timer to check on the progress.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 7:52:10`
+
+The build is currently compiling. I've set a 90-second timer to monitor it. I will keep you posted.
+
+---
+
