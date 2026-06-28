@@ -698,3 +698,41 @@ Tauri 릴리즈 컴파일을 통해 아래 2가지 포맷의 프로덕션 설치
 
 ---
 
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 8:00:30`
+
+요청하신 전체 코드, 로직 및 프로세스 연동 구조를 종합적으로 진단하고, 이를 한눈에 파악하고 검증할 수 있는 세련된 대시보드 형태의 보고서 파일인 **[project_review_ver01.html](file:///c:/workspace/token_optimizer/project_review_ver01.html)**를 성공적으로 작성하고 Git 버저닝 등록까지 완료하였습니다!
+
+Windows 환경에서 한글 깨짐 현상이 전혀 없도록 이 파일 역시 **UTF-8 BOM** 인코딩으로 깔끔하게 저장되었습니다.
+
+---
+
+### 📄 [project_review_ver01.html](file:///c:/workspace/token_optimizer/project_review_ver01.html) 보고서 내역 안내
+
+작성된 HTML 문서는 **Futuristic Dark UI (Glassmorphism)** 테마와 Google Fonts(Outfit, Inter, JetBrains Mono)를 결합하여 개발자가 보기에 매우 직관적이고 세련되게 디자인되었습니다. 내포된 상세 섹션은 다음과 같습니다:
+
+1. **프로젝트 개요 및 핵심 메트릭스 (Hero Dashboard):**
+   * 프로젝트의 본질적 가치(한글 토큰 절감률 극대화)와 Option A 아키텍처 적용 결과(배포 용량 15MB 이하, 메모리 약 28MB 대기) 등의 정량적 지표 시각화.
+2. **프로젝트 기술 스택 & 데이터 파이프라인 흐름도:**
+   * 입력 감지(React) $\rightarrow$ Tauri IPC 디스패치 $\rightarrow$ 로컬 데이터 추출(WinRT OCR, lopdf/docx-rs) $\rightarrow$ Heuristics 가공 및 LLM 최적화 $\rightarrow$ 클립보드 복사 및 UI 피드백에 이르는 전 과정을 구조화한 반응형 차트.
+3. **주요 함수 목록 및 세부 스펙 테이블 (Functions):**
+   * `run()`, `process_input_cmd()`, `extract_ocr_windows()`, `clean_text()`, `request_llm_optimization()` 등 백엔드 Rust API 및 프론트엔드 React 컴포넌트의 역할, 입력 인자, 반환 유형 총망라.
+4. **핵심 설정 및 변수 목록 테이블 (Variables):**
+   * 로컬 영구 저장을 위한 `to_api_key`, `to_active_preset_id` 키 및 윈도우 스타일 제어 옵션(`transparent`, `alwaysOnTop`) 등의 활용 목적 상세 설명.
+5. **프로젝트 연동 작동 메커니즘 (Inter-Process Coordination):**
+   * React와 Tauri Rust Core, 그리고 Windows OS 윈도우 매니저 간의 유기적인 창 크기 동적 조절(90px $\leftrightarrow$ 130px) 및 글로벌 단축키 포커스 Lost Blur 감지 작동 메커니즘 서술.
+6. **유기적 아키텍처 신뢰성 검증 및 확장 준비성 (Extensibility & Scaling):**
+   * **검증:** 메모리 효율성 보장, 스레드 안전성(Send/Sync) 충족, 자동화 테스트(5/5 통과) 완료.
+   * **확장성:** 향후 로컬 SLM/Ollama 연동 시 Rust 코드 수정 없이 가능하도록 설계된 `model` 및 `api_url` 옵션 파라미터 구조, 그리고 macOS 크로스플랫폼을 대비한 컴파일 타임 조건부 플래그 모듈화 구조 증명.
+
+---
+
+### 🔒 Git 버전 관리 완료
+* 생성된 검증 보고서 파일 및 대화 로그가 담긴 `history.md` 파일은 로컬 Git 저장소에 커밋되어 깔끔하게 버저닝되었습니다.
+* 깃허브에 최종 대화 이력과 아키텍처 검증 보고서를 싱크하시려면 터미널에 `git push`를 한번 입력해 주시면 됩니다.
+
+```bash
+git push
+```
+
+---
+
