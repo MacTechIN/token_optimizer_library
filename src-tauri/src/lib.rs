@@ -5,6 +5,8 @@ mod llm;
 mod cmd;
 
 use tauri::Manager;
+use tauri::menu::{MenuBuilder, MenuItem};
+use tauri::tray::TrayIconBuilder;
 use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, Modifiers, Code, ShortcutState};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -13,7 +15,27 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .setup(|app| {
-            // 1. Register Alt+Space shortcut to toggle window
+            // 1. Create a system tray icon with an Exit menu item
+            let quit_i = MenuItem::with_id(app, "quit", "Exit", true, None::<&str>)?;
+            let menu = MenuBuilder::new(app).item(&quit_i).build()?;
+            
+            let tray_builder = TrayIconBuilder::with_id("main-tray")
+                .menu(&menu)
+                .on_menu_event(|app, event| {
+                    if event.id() == "quit" {
+                        app.exit(0);
+                    }
+                });
+
+            let tray_builder = if let Some(icon) = app.default_window_icon() {
+                tray_builder.icon(icon.clone())
+            } else {
+                tray_builder
+            };
+            
+            let _tray = tray_builder.build(app)?;
+
+            // 2. Register Alt+Space shortcut to toggle window
             let shortcut = Shortcut::new(Some(Modifiers::ALT), Code::Space);
             let _ = app.global_shortcut().on_shortcut(shortcut, move |app_handle, _shortcut, event| {
                 if event.state() == ShortcutState::Pressed {
