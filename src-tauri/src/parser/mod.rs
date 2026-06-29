@@ -1,4 +1,4 @@
-pub mod pdf;
+﻿pub mod pdf;
 pub mod docx;
 
 use std::fs::File;
@@ -25,7 +25,8 @@ pub fn parse_file(path: &str) -> Result<String, String> {
     match extension.as_str() {
         "pdf" => pdf::extract_pdf(path),
         "docx" => docx::extract_docx(path),
-        "txt" => read_txt_file(path),
+        "txt" | "md" | "markdown" | "json" | "csv" | "xml" | "yaml" | "yml" | "toml" | "ini" | "conf" | "log" 
+        | "rs" | "py" | "js" | "ts" | "tsx" | "jsx" | "html" | "css" | "cpp" | "c" | "h" | "java" | "go" | "sh" | "bat" | "ps1" => read_txt_file(path),
         _ => Err(format!("Unsupported file extension: .{}", extension)),
     }
 }

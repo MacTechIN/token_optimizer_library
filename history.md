@@ -1235,3 +1235,86 @@ The clean rebuild of the executable and its installers is ongoing. I've set anot
 
 ---
 
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:14:24`
+
+지적해주신 **파일 드래그 앤 드롭을 하려고 외부 창(파일 탐색기 등)을 선택하면 앱이 바로 사라지던 크리티컬한 UX 문제**를 완벽하게 해결하고, 최신 빌드 패키지 제작 및 원격 리포지토리 푸쉬(`git push`)까지 모두 성공적으로 완료했습니다!
+
+---
+
+### 📌 화면 핀 고정(Pin Toggle) 기능 도입 및 해결 내역
+
+#### 1. 문제 분석 (Focus-Out Auto-Hide Conflict)
+*   **원인:** 포커스를 잃을 때 창을 숨기도록 되어 있던 기존의 포커스 아웃(`blur`) 이벤트 처리 방식 때문에, 사용자가 드래그를 시작하기 위해 파일 탐색기나 바탕화면을 누르는 순간 앱이 비활성화(Focused: false)되며 화면에서 즉시 사라져 드래그 앤 드롭이 원천적으로 불가능했습니다.
+
+#### 2. 해결 및 구현 방식 (하이브리드 포커스 제어 모델)
+*   **백엔드 업데이트 (`src-tauri/src/lib.rs` & `src-tauri/src/cmd.rs`):**
+    *   앱의 고정 상태를 나타내는 스레드 세이프 전역 플래그 `IS_PINNED` (`AtomicBool`)를 추가했습니다.
+    *   포커스를 잃더라도 **핀 고정이 활성화되어 있는 경우 창이 자동으로 숨겨지지 않도록** 감지 로직을 우회했습니다.
+    *   Tauri IPC 명령 `toggle_pin_cmd`를 신설하여 프론트엔드와 실시간 상태를 동기화합니다.
+*   **프론트엔드 UI 업데이트 (`src/App.tsx` & `src/components/StatusBar.tsx`):**
+    *   상태 바 우측 하단에 세련된 **핀 아이콘(📌)** 토글 버튼을 추가했습니다.
+    *   **핀 고정 비활성(기본):** 일반 검색 런처처럼 빈 곳을 누르거나 포커스가 아웃되면 즉시 숨겨져 작업에 방해를 주지 않습니다.
+    *   **핀 고정 활성 (📌 클릭):** 핀 아이콘이 인디고 테마 컬러(`text-indigo-400 bg-indigo-500/10`)로 밝게 활성화되며, **다른 화면을 클릭하거나 드래그 앤 드롭 동작을 시작하더라도 창이 사라지지 않고 최상단에 안정적으로 유지**됩니다.
+
+---
+
+### 📥 📌 고정 기능이 탑재된 최종 패키지 다운로드
+
+*   📥 **[화면 고정 핀 버튼이 적용된 최종 Setup.exe 설치본](file:///C:/workspace/token_optimizer/src-tauri/target/release/bundle/nsis/TokenOptimizer_0.1.0_x64-setup.exe)**
+*   📥 **[화면 고정 핀 버튼이 적용된 최종 token_optimizer.exe 실행본](file:///C:/workspace/token_optimizer/src-tauri/target/release/token_optimizer.exe)**
+
+---
+
+### 🚀 원격 깃 리포지토리 반영 완료
+*   수정된 소스코드(`lib.rs`, `cmd.rs`, `App.tsx`, `StatusBar.tsx`, `tauriIpc.ts` 등)를 검증하고 원격 저장소에 원클릭 배포 완료했습니다.
+    ```bash
+    To https://github.com/MacTechIN/token_optimizer_library.git
+       96beea7..66af2b8  main -> main
+    ```
+
+사용하시기 전에 상태 바 하단 우측의 **📌 버튼을 켜두시면**, 이제 언제든 탐색기에서 파일을 가져와 토큰 최적화 입력창에 부드럽게 드래그 앤 드롭 하실 수 있습니다!
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 10:19:28`
+
+Pinning works well, but dragging and dropping an md file causes an error message with no further action.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:20:31`
+
+I am verifying the compilation of the parser extension (Markdown and code extension parser routing) in the background. I've set a 30-second timer and will let you know once it's clean.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:21:05`
+
+I am running the unit test suite to ensure that all parser changes are verified and clean. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:23:33`
+
+I have triggered the final production packaging rebuild with the new native parser mappings for Markdown and text-based files. I've set a 90-second timer to monitor it. I will alert you once the installer is ready.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:25:19`
+
+The compilation is ongoing. I've set another 60-second timer to monitor it. I will keep you posted.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:26:30`
+
+The build is actively compiling. I've set a 60-second timer to monitor it. I will keep you posted.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:27:37`
+
+The clean rebuild compiled successfully and it is wrapping up the final installers. I've set a 30-second timer to monitor its final completion.
+
+---
+
