@@ -3,6 +3,7 @@ mod ocr;
 mod parser;
 mod llm;
 mod cmd;
+mod config;
 
 use tauri::Manager;
 use tauri::menu::{MenuBuilder, MenuItem};
@@ -90,7 +91,11 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![cmd::process_input_cmd])
+        .invoke_handler(tauri::generate_handler![
+            cmd::process_input_cmd,
+            config::load_settings_cmd,
+            config::save_settings_cmd
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

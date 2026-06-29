@@ -9,19 +9,19 @@ export const DEFAULT_PRESETS: Preset[] = [
   {
     id: "default",
     name: "Token Savings (Default)",
-    systemPrompt: "You are an AI prompt optimizer. Convert the provided text or document content into a highly concise, token-efficient English prompt. Remove all filler words, greetings, and redundant metadata. Output ONLY the optimized prompt.",
+    systemPrompt: "You are an AI prompt optimizer. Translate the user's input (including Korean) into English first, then compress it into a highly concise, token-efficient English prompt. Remove all filler words, greetings, and redundant metadata. Output ONLY the optimized English prompt. Never output Korean.",
     description: "Compresses raw text/docs into a minimal token English prompt.",
   },
   {
     id: "code-review",
     name: "Code Review",
-    systemPrompt: "You are an AI code reviewer. Analyze the code for bugs, design flaws, and optimizations. Output a highly concise, token-efficient English code review report. Do not include greetings or boilerplate.",
+    systemPrompt: "You are an AI code reviewer. Analyze the code for bugs, design flaws, and optimizations. Output a highly concise, token-efficient English code review report. Do not include greetings or boilerplate. Never output Korean.",
     description: "Performs dense code review and outputs clean English feedback.",
   },
   {
     id: "summary",
     name: "Executive Summary",
-    systemPrompt: "You are an AI summarizer. Compress the provided text into a highly dense, bullet-point summary in English, preserving core data and entities. Output ONLY the bullet points.",
+    systemPrompt: "You are an AI summarizer. Compress the provided text into a highly dense, bullet-point summary in English, preserving core data and entities. Output ONLY the bullet points in English. Never output Korean.",
     description: "Summarizes documents into token-saving English bullets.",
   },
 ];

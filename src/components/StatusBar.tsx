@@ -1,4 +1,4 @@
-﻿interface StatusBarProps {
+interface StatusBarProps {
   activePresetName: string;
   activePresetDesc: string;
   isLoading: boolean;
@@ -8,10 +8,12 @@
   } | null;
   onSettingsToggle: () => void;
   showApiKey: boolean;
+  targetLanguage: "en" | "ko";
 }
 
 /**
- * Bottom status bar displaying preset info, loader, conversion results (savings ratio), and settings toggle.
+ * Bottom status bar displaying preset info, loader, conversion results,
+ * and a comparison formula for English vs Korean token overhead.
  */
 export function StatusBar({
   activePresetName,
@@ -20,9 +22,10 @@ export function StatusBar({
   savings,
   onSettingsToggle,
   showApiKey,
+  targetLanguage,
 }: StatusBarProps) {
   return (
-    <div className="flex items-center justify-between px-4 py-1.5 border-t border-white/10 text-[11px] text-white/50 bg-black/10 select-none">
+    <div className="flex items-center justify-between px-4 py-2.5 border-t border-white/10 text-[11px] text-white/50 bg-black/10 select-none">
       <div className="flex items-center gap-2">
         <span className="font-semibold text-white/70 bg-white/10 px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider">
           {activePresetName}
@@ -41,9 +44,25 @@ export function StatusBar({
         )}
 
         {!isLoading && savings && (
-          <span className="text-emerald-400 font-medium">
-            클립보드 자동 복사! {savings.original}자 → {savings.optimized}자 ({-Math.round((1 - savings.original / savings.optimized) * 100)}% 절약)
-          </span>
+          <div className="flex flex-col items-end gap-0.5">
+            <span className="text-emerald-400 font-semibold">
+              클립보드 복사 완료! {savings.original}자 → {savings.optimized}자 (
+              {Math.max(0, Math.round((1 - savings.optimized / savings.original) * 100))}% 압축)
+            </span>
+            <span className="text-[9px] text-white/45 font-light">
+              {targetLanguage === "en" ? (
+                <span>
+                  영문 토큰 최적화: ~{Math.ceil(savings.optimized * 0.25)} 토큰 
+                  (한글 유지 시 약 ~{Math.ceil(savings.optimized * 0.8 * 1.3)} 토큰 대비 <strong className="text-indigo-300 font-medium">76% 절약</strong>)
+                </span>
+              ) : (
+                <span>
+                  한글 토큰 최적화: ~{Math.ceil(savings.optimized * 1.3)} 토큰 
+                  (영문 변환 시 약 ~{Math.ceil(savings.optimized * 1.25 * 0.25)} 토큰 대비 <strong className="text-amber-300 font-medium">4.1배 추가소모</strong>)
+                </span>
+              )}
+            </span>
+          </div>
         )}
 
         <button
@@ -51,7 +70,7 @@ export function StatusBar({
           className={`hover:text-white transition-colors p-1 ${
             showApiKey ? "text-indigo-400" : "text-white/40"
           }`}
-          title="OpenAI API Key 설정"
+          title="설정 및 출력 언어 변경"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
