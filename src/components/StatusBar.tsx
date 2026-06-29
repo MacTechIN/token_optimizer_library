@@ -1,4 +1,4 @@
-interface StatusBarProps {
+﻿interface StatusBarProps {
   activePresetName: string;
   activePresetDesc: string;
   isLoading: boolean;
