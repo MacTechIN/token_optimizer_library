@@ -927,3 +927,102 @@ The compilation is finished, and it is now wrapping up the NSIS installer. I've 
 
 ---
 
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:12:44`
+
+보여주신 윈도우 시스템 트레이 사진을 보니 Token Optimizer 앱 아이콘(가장 왼쪽의 파란색/노란색 고리 모양 아이콘)이 트레이 영역에 정상적으로 상주해 있네요!
+
+포커스가 아웃되어 숨겨진 위젯을 **다시 화면으로 불러내는 방법**은 크게 **두 가지**가 제공됩니다.
+
+---
+
+### 1. 단축키로 다시 불러오기 (가장 편리함)
+*   키보드에서 **`Alt + Space`** 단축키를 입력합니다.
+*   그러면 숨겨져 있던 검색창 위젯이 화면 중앙에 즉시 팝업되며 자동으로 포커스 인(`set_focus()`) 처리됩니다.
+
+---
+
+### 2. 마우스 클릭으로 다시 불러오기 (트레이 아이콘 연동 추가 구현 완료)
+*   기존에는 트레이 아이콘 우클릭 시 "Exit" 메뉴만 제공되었으나, 방금 **트레이 아이콘 마우스 클릭 연동 기능을 새롭게 구현하여 패키지 배포 파일 빌드를 끝마쳤습니다!**
+*   트레이 영역에 있는 **Token Optimizer 아이콘을 마우스 왼쪽 버튼으로 클릭**하면, 숨겨져 있던 위젯이 화면에 나타나면서 포커스가 들어옵니다. (창이 열려있는 상태에서 클릭하면 다시 트레이로 깔끔히 감춰집니다)
+*   **아이콘 마우스 우클릭 시** 기존과 같이 앱을 완전히 프로세스 상에서 종료할 수 있는 **"Exit"** 메뉴가 나타납니다.
+
+---
+
+### 📥 새 트레이 이벤트가 반영된 최신 빌드본 적용 방법
+
+기존 백그라운드 프로세스가 실행 중이면 파일 락이 발생하므로, 아래 절차대로 설치해 주시면 즉시 적용됩니다.
+
+1.  시스템 트레이 아이콘을 우클릭하여 **Exit**를 눌러 실행 중인 앱을 완전히 종료합니다.
+2.  아래의 새로 빌드 완료된 최종 설치 파일을 받아 실행해 줍니다:
+    *   📥 **[왼쪽 클릭 토글이 내장된 최종 Setup.exe 설치 프로그램](file:///C:/workspace/token_optimizer/src-tauri/target/release/bundle/nsis/TokenOptimizer_0.1.0_x64-setup.exe)**
+    *   📥 **[왼쪽 클릭 토글이 내장된 최종 token_optimizer.exe 직접 실행본](file:///C:/workspace/token_optimizer/src-tauri/target/release/token_optimizer.exe)**
+3.  앱 실행 후 포커스가 나갔을 때 **트레이 아이콘 왼쪽 클릭** 또는 **`Alt + Space`**를 입력하여 화면에 위젯이 정상적으로 토글되는지 테스트해 보세요!
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 9:29:47`
+
+한글입력후 변환 하면 영문으로 되지 않고 한글로됨 확인 바람
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 9:30:35`
+
+메번 실행 시킬때마다 OpenAI api KEY 를 입력하는 것보다 유저 설정에서 등록을 해서 계속 사용 하도록 만들어줘 (다른 방법 제안 바람)
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:31:45`
+
+I have started the compilation check in the background to verify the new Roaming AppData settings persistence module (`config.rs` and backend integration). I will wait for it to complete.
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 9:32:15`
+
+한글 / 영문 설정을 하게 하고 한글 일경우 영문일경우 토큰에 비해 얼마나 더 증가 하는지 계산 사는 식도 필요함
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:32:28`
+
+I have scheduled a 30-second timer to wait for the backend compilation check to finish. Once it compiles successfully, we will implement the language preference (Korean/English) option and the token overhead calculation formula.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:33:56`
+
+I am checking the compilation of the final changes (including the target language selector, dynamic prompts, and token calculations) in the background. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:34:12`
+
+I am running `cargo test` in the background to ensure that all unit tests still pass successfully with the configuration module and target language enhancements. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:36:13`
+
+I've launched the final Tauri production build with the new settings persistence, Korean/English language settings, and token density calculation formula. I've set a 90-second timer to monitor the final packaging. I will notify you once the installers are ready.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:38:14`
+
+The build is compiling in release mode. I've set a 60-second timer to monitor it. I will update you as soon as it's done.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:39:29`
+
+The build is actively compiling the updated release binary. I've set a 60-second timer to monitor it. I will keep you posted.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:40:39`
+
+The release binary has compiled successfully. It is wrapping up the final installers (MSI and NSIS setup EXE). I've set a 30-second timer to monitor its final completion.
+
+---
+
