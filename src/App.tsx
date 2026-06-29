@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { getCurrentWindow, LogicalSize } from "@tauri-apps/api/window";
 import { FileDropZone } from "./components/FileDropZone";
 import { SearchInput } from "./components/SearchInput";
@@ -15,6 +15,8 @@ function App() {
   const [apiKey, setApiKey] = useState("");
   const [activePresetId, setActivePresetId] = useState("default");
   const [targetLanguage, setTargetLanguage] = useState<"en" | "ko">("en");
+  const [modelName, setModelName] = useState("");
+  const [apiUrl, setApiUrl] = useState("");
   
   const [isLoading, setIsLoading] = useState(false);
   const [savings, setSavings] = useState<{ original: number; optimized: number } | null>(null);
@@ -30,6 +32,8 @@ function App() {
           setApiKey(backendConfig.api_key);
           setActivePresetId(backendConfig.active_preset_id || "default");
           setTargetLanguage((backendConfig.target_language as "en" | "ko") || "en");
+          setModelName(backendConfig.model || "");
+          setApiUrl(backendConfig.api_url || "");
           return;
         }
       } catch (e) {
@@ -62,9 +66,9 @@ function App() {
     initSettings();
   }, []);
 
-  // 2. Perform dynamic window resizing based on settings/error state
+  // 2. Perform dynamic window resizing based on settings/error state (expanded to 175 for 3 rows)
   useEffect(() => {
-    const height = showSettings || error ? 130 : 90;
+    const height = showSettings ? 175 : error ? 130 : 90;
     getCurrentWindow().setSize(new LogicalSize(640, height));
   }, [showSettings, error]);
 
@@ -97,24 +101,26 @@ function App() {
     saveSettingsToBackend({
       api_key: apiKey,
       active_preset_id: nextPreset.id,
-      model: null,
-      api_url: null,
+      model: modelName || null,
+      api_url: apiUrl || null,
       target_language: targetLanguage,
     }).catch(console.error);
     setSavings(null);
   };
 
-  // 4. API Key setup handler
-  const handleSettingsSave = (newKey: string, newLang: "en" | "ko") => {
+  // 4. API Settings setup handler
+  const handleSettingsSave = (newKey: string, newLang: "en" | "ko", newModel: string, newUrl: string) => {
     setApiKey(newKey);
     setTargetLanguage(newLang);
+    setModelName(newModel);
+    setApiUrl(newUrl);
     saveSettings({ apiKey: newKey, activePresetId });
     localStorage.setItem("to_target_language", newLang);
     saveSettingsToBackend({
       api_key: newKey,
       active_preset_id: activePresetId,
-      model: null,
-      api_url: null,
+      model: newModel || null,
+      api_url: newUrl || null,
       target_language: newLang,
     }).catch(console.error);
     setShowSettings(false);
@@ -123,8 +129,8 @@ function App() {
 
   // 5. Execute optimization pipeline
   const executePipeline = async (text: string, filePath: string | null) => {
-    if (!apiKey) {
-      setError("OpenAI API Key가 필요합니다. 우측 열쇠 버튼을 클릭하고 입력해주세요.");
+    if (!apiKey && !apiUrl) {
+      setError("API Key 또는 Custom API Endpoint가 필요합니다.");
       setShowSettings(true);
       return;
     }
@@ -134,7 +140,14 @@ function App() {
     setSavings(null);
 
     try {
-      const res = await processInput(text, filePath, apiKey, systemPrompt);
+      const res = await processInput(
+        text, 
+        filePath, 
+        apiKey, 
+        systemPrompt, 
+        modelName || null, 
+        apiUrl || null
+      );
       if (res.success) {
         setSavings({ original: res.original_length, optimized: res.optimized_length });
         setInputText("");
@@ -169,7 +182,9 @@ function App() {
         {/* Main Content Area */}
         <div className="flex-1 flex items-center justify-between min-h-[52px]">
           {showSettings ? (
-            <div className="w-full flex flex-col gap-2 px-4 py-2">
+            <div className="w-full flex flex-col gap-2.5 px-4 py-2.5">
+              
+              {/* Row 1: API Key & Control buttons */}
               <div className="flex items-center gap-2">
                 <input
                   type="password"
@@ -178,9 +193,11 @@ function App() {
                   placeholder="OpenAI API Key 입력 (sk-...)"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      handleSettingsSave(e.currentTarget.value, targetLanguage);
+                      const inputModel = document.getElementById("modelNameInput") as HTMLInputElement;
+                      const inputUrl = document.getElementById("apiUrlInput") as HTMLInputElement;
+                      handleSettingsSave(e.currentTarget.value, targetLanguage, inputModel?.value || "", inputUrl?.value || "");
                     } else if (e.key === "Escape") {
-                      if (apiKey) setShowSettings(false);
+                      if (apiKey || apiUrl) setShowSettings(false);
                     }
                   }}
                   autoFocus
@@ -188,14 +205,16 @@ function App() {
                 />
                 <button
                   onClick={() => {
-                    const input = document.getElementById("apiKeyInput") as HTMLInputElement;
-                    handleSettingsSave(input.value, targetLanguage);
+                    const inputKey = document.getElementById("apiKeyInput") as HTMLInputElement;
+                    const inputModel = document.getElementById("modelNameInput") as HTMLInputElement;
+                    const inputUrl = document.getElementById("apiUrlInput") as HTMLInputElement;
+                    handleSettingsSave(inputKey.value, targetLanguage, inputModel?.value || "", inputUrl?.value || "");
                   }}
                   className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded-lg transition-colors font-medium"
                 >
                   저장
                 </button>
-                {apiKey && (
+                {(apiKey || apiUrl) && (
                   <button
                     onClick={() => setShowSettings(false)}
                     className="bg-white/5 hover:bg-white/10 text-white/80 text-xs px-3 py-1.5 rounded-lg transition-colors"
@@ -204,7 +223,26 @@ function App() {
                   </button>
                 )}
               </div>
+
+              {/* Row 2: Custom Endpoint & Model name for local LLM extensions */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  defaultValue={apiUrl}
+                  id="apiUrlInput"
+                  placeholder="Custom API Endpoint (예: http://localhost:11434/v1)"
+                  className="flex-1 bg-white/5 border border-white/10 text-white text-[11px] px-2.5 py-1.2 rounded-lg outline-none focus:border-indigo-500/50"
+                />
+                <input
+                  type="text"
+                  defaultValue={modelName}
+                  id="modelNameInput"
+                  placeholder="Custom Model (예: llama3)"
+                  className="w-1/3 bg-white/5 border border-white/10 text-white text-[11px] px-2.5 py-1.2 rounded-lg outline-none focus:border-indigo-500/50"
+                />
+              </div>
               
+              {/* Row 3: Target Language & Warning details */}
               <div className="flex items-center justify-between text-[10px] text-white/60">
                 <div className="flex items-center gap-2">
                   <span>출력 언어:</span>
