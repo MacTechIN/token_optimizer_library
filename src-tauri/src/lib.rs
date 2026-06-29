@@ -6,7 +6,7 @@ mod cmd;
 
 use tauri::Manager;
 use tauri::menu::{MenuBuilder, MenuItem};
-use tauri::tray::TrayIconBuilder;
+use tauri::tray::{TrayIconBuilder, TrayIconEvent, MouseButton, MouseButtonState};
 use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, Modifiers, Code, ShortcutState};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -21,9 +21,29 @@ pub fn run() {
             
             let tray_builder = TrayIconBuilder::with_id("main-tray")
                 .menu(&menu)
+                .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| {
                     if event.id() == "quit" {
                         app.exit(0);
+                    }
+                })
+                .on_tray_icon_event(|tray, event| {
+                    if let TrayIconEvent::Click {
+                        button: MouseButton::Left,
+                        button_state: MouseButtonState::Up,
+                        ..
+                    } = event
+                    {
+                        let app = tray.app_handle();
+                        if let Some(window) = app.get_webview_window("main") {
+                            let is_visible = window.is_visible().unwrap_or(false);
+                            if is_visible {
+                                let _ = window.hide();
+                            } else {
+                                let _ = window.show();
+                                let _ = window.set_focus();
+                            }
+                        }
                     }
                 });
 
