@@ -50,3 +50,10 @@ export async function loadSettingsFromBackend(): Promise<AppConfig> {
 export async function saveSettingsToBackend(settings: AppConfig): Promise<void> {
   return await invoke<void>("save_settings_cmd", { settings });
 }
+
+/**
+ * Sets the pinned state of the window (disables auto-hide on blur).
+ */
+export async function setPinned(pinned: boolean): Promise<void> {
+  return await invoke<void>("toggle_pin_cmd", { pinned });
+}

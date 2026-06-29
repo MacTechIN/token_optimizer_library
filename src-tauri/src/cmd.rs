@@ -70,3 +70,9 @@ pub async fn process_input_cmd(
         error_message: None,
     })
 }
+
+/// Sets the window pinned state (disables auto-hide on blur)
+#[tauri::command]
+pub fn toggle_pin_cmd(pinned: bool) {
+    crate::IS_PINNED.store(pinned, std::sync::atomic::Ordering::Relaxed);
+}

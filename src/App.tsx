@@ -4,7 +4,7 @@ import { FileDropZone } from "./components/FileDropZone";
 import { SearchInput } from "./components/SearchInput";
 import { StatusBar } from "./components/StatusBar";
 import { DEFAULT_PRESETS, loadSettings, saveSettings } from "./services/presetManager";
-import { processInput, loadSettingsFromBackend, saveSettingsToBackend } from "./services/tauriIpc";
+import { processInput, loadSettingsFromBackend, saveSettingsToBackend, setPinned } from "./services/tauriIpc";
 
 /**
  * Main application coordinator managing inputs, preset toggling, 
@@ -17,6 +17,7 @@ function App() {
   const [targetLanguage, setTargetLanguage] = useState<"en" | "ko">("en");
   const [modelName, setModelName] = useState("");
   const [apiUrl, setApiUrl] = useState("");
+  const [isPinned, setIsPinned] = useState(false);
   
   const [isLoading, setIsLoading] = useState(false);
   const [savings, setSavings] = useState<{ original: number; optimized: number } | null>(null);
@@ -127,7 +128,18 @@ function App() {
     setError(null);
   };
 
-  // 5. Execute optimization pipeline
+  // 5. Pin Toggling Handler
+  const handlePinToggle = async () => {
+    const nextPinned = !isPinned;
+    setIsPinned(nextPinned);
+    try {
+      await setPinned(nextPinned);
+    } catch (e) {
+      console.error("Failed to toggle pin state:", e);
+    }
+  };
+
+  // 6. Execute optimization pipeline
   const executePipeline = async (text: string, filePath: string | null) => {
     if (!apiKey && !apiUrl) {
       setError("API Key 또는 Custom API Endpoint가 필요합니다.");
@@ -305,6 +317,8 @@ function App() {
           onSettingsToggle={() => setShowSettings(!showSettings)}
           showApiKey={showSettings}
           targetLanguage={targetLanguage}
+          isPinned={isPinned}
+          onPinToggle={handlePinToggle}
         />
       </div>
     </FileDropZone>

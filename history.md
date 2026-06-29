@@ -1088,3 +1088,150 @@ I've started the compile verification in the background to ensure that the overw
 
 ---
 
+### 👤 사용자 (User) - `2026. 6. 29. 오전 9:57:46`
+
+깃 커밋 해줘
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 9:58:03`
+
+남겨져 있던 모든 파일들의 Git 스테이징 및 커밋(`Commit remaining files for settings and language features`)이 완료되어 작업 트리가 완전히 깨끗한 상태(clean)로 정비되었습니다.
+
+---
+
+요청하신 **단순 단어 압축을 넘어 대형 언어 모델(LLM)이 가장 논리적으로 정확하게 해석할 수 있는 "구조화된 프롬프트(Structured Prompt)" 설계 기법과 구체적인 템플릿 예시**를 안내해 드립니다.
+
+### 1. 단순 단어 압축 vs 구조화된 프롬프트
+
+*   **단순 단어 압축 (Word Compression):**
+    *   조사, 수식어, 불필요한 공백을 걷어내어 토큰을 최소화하는 기술입니다.
+    *   **한계:** 텍스트가 극단적으로 축약되면 AI가 맥락을 오해하거나, 명령 조건(제약 조건, 출력 포맷 등)을 무시하는 현상이 발생할 수 있습니다.
+*   **구조화된 프롬프트 (Structured Prompt):**
+    *   AI가 읽기 쉬운 명확한 **컴포넌트 단위(지시어, 입력값, 제약사항, 예시, 출력형식)**로 영역을 나누어 프롬프트를 조립하는 기술입니다.
+    *   **장점:** 압축률을 극대화하더라도 AI의 추론 성능(Reasoning)이 떨어지지 않고, 일관된 포맷의 답변을 얻을 수 있습니다.
+
+---
+
+### 2. 구조화된 프롬프트를 만드는 3대 핵심 문법
+
+#### ① XML 태그 감싸기 (가장 추천 - Gemini, GPT-4o에 최적화)
+LLM은 HTML/XML 마크업 데이터 학습량이 매우 방대하기 때문에, 명령어와 데이터를 XML 태그로 구분해 주면 완벽하게 구분해서 인식합니다.
+```xml
+<instruction>
+제공된 코드를 바탕으로 보안 취약점을 발견하세요.
+</instruction>
+
+<source_code>
+// 여기에 사용자가 붙여넣은 코드
+</source_code>
+
+<output_format>
+- 취약점 설명:
+- 위험도: [High/Medium/Low]
+</output_format>
+```
+
+#### ② 마크다운 헤더 계층구조 (Markdown Hierarchy)
+구조적 명확성을 주어 흐름을 인지시킵니다.
+```markdown
+# 역할 (Role)
+Senior Tech Lead
+
+# 제약 조건 (Constraints)
+- 영문으로 답변할 것.
+- 3문장 이내로 요약할 것.
+
+# 데이터 (Input)
+[여기에 본문 입력]
+```
+
+#### ③ YAML / JSON 메타데이터 선언
+상단에 YAML Frontmatter 규격으로 메타데이터를 넘겨주면 토큰을 아끼면서 지시 사항을 명시할 수 있습니다.
+```yaml
+---
+Task: Translation
+TargetLanguage: English
+Tone: Professional
+OutputFormat: Bullet Points
+---
+[여기에 본문 입력]
+```
+
+---
+
+### 3. T.O.(Token Optimizer) 앱 프리셋으로 바로 활용 가능한 실전 구조화 템플릿 예시
+
+이 구조화 템플릿을 복사하여 T.O. 앱의 입력창에 드롭하거나 시스템 프리셋에 등록해 사용하면 최적의 토큰 효율과 완성도 높은 AI 응답을 얻을 수 있습니다.
+
+#### [실전 템플릿 예시: 구조화된 코드 리팩토링 요청]
+```markdown
+# Role
+Refactoring Expert / Clean Code Specialist
+
+# Goal
+Optimize the code in <source_code> for performance, readability, and DRY principles.
+
+# Constraints
+- Keep original logic intact.
+- Only suggest critical modifications.
+- Language: English
+
+# Response Spec
+<format>
+## 1. Key Issues (Max 3 points)
+## 2. Refactored Code (Pure code block)
+## 3. Benefits (Concise explanation)
+</format>
+
+<source_code>
+[여기에 변환 대상 코드가 자동으로 삽입됨]
+</source_code>
+```
+
+이렇게 명확히 영역을 구획화(Segment)해주는 템플릿 구조를 활용하면, 프롬프트가 다소 압축되어 전달되더라도 LLM이 명령의 선후관계를 명확히 식별하여 원하시는 스펙대로만 유기적으로 답변하게 됩니다.
+
+---
+
+### 👤 사용자 (User) - `2026. 6. 29. 오전 10:04:15`
+
+이 그림처럼 토큰에널라이져가 활성화 되었을때 화일을 드레그 엔 드롭 하기위해 마우스를 다른 윈도우로 가져가는 순간 토큰 에널라이져는 사라짐 이렇게 되면 파일을 드레그엔드럽을 사용 할 수 가 없음
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:05:28`
+
+I am verifying that the window pin system compiles cleanly on the Rust side. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:07:05`
+
+I am running the Rust unit tests to verify that all configurations and functions are completely stable. I will wait for it to complete.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:08:18`
+
+I have launched the production build to compile the final executable with the pushpin auto-hide toggle toggleable right from the Status Bar. I've set a 90-second timer to monitor the final installer packaging and will notify you when it finishes.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:10:20`
+
+The compilation is active. I've set a 60-second timer to monitor it. I will keep you posted.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:11:18`
+
+The process locking the executable was successfully terminated and the cargo build cache has been cleaned. I've restarted the final packaging compilation. I'll wait 90 seconds to verify its progression and notify you when it's done.
+
+---
+
+### 🤖 어시스턴트 (Antigravity) - `2026. 6. 29. 오전 10:12:57`
+
+The clean rebuild of the executable and its installers is ongoing. I've set another 90-second timer to monitor it. I will update you once it completes.
+
+---
+

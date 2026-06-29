@@ -9,6 +9,9 @@ use tauri::Manager;
 use tauri::menu::{MenuBuilder, MenuItem};
 use tauri::tray::{TrayIconBuilder, TrayIconEvent, MouseButton, MouseButtonState};
 use tauri_plugin_global_shortcut::{GlobalShortcutExt, Shortcut, Modifiers, Code, ShortcutState};
+use std::sync::atomic::{AtomicBool, Ordering};
+
+pub static IS_PINNED: AtomicBool = AtomicBool::new(false);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -79,9 +82,9 @@ pub fn run() {
                 window.on_window_event(move |event| {
                     if let tauri::WindowEvent::Focused(focused) = event {
                         if *focused {
-                            has_focused.store(true, std::sync::atomic::Ordering::Relaxed);
+                            has_focused.store(true, Ordering::Relaxed);
                         } else {
-                            if has_focused.load(std::sync::atomic::Ordering::Relaxed) {
+                            if has_focused.load(Ordering::Relaxed) && !IS_PINNED.load(Ordering::Relaxed) {
                                 let _ = w_clone.hide();
                             }
                         }
@@ -93,6 +96,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             cmd::process_input_cmd,
+            cmd::toggle_pin_cmd,
             config::load_settings_cmd,
             config::save_settings_cmd
         ])
